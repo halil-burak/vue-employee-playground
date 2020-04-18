@@ -1,13 +1,13 @@
 <template>
   <div id="employee-form">
-    <form @submit.prevent="onSubmit">
+    <form @submit.prevent="addEmployee">
       <p>
         <label for="name">Name:</label>
         <input
           ref="first"
           id="name"
           type="text"
-          :class="{'has-error':submitting && invalidName}"
+          :class="{ 'has-error': submitting && invalidName }"
           v-model="name"
           @focus="clearStatus"
           @keypress="clearStatus"
@@ -20,7 +20,7 @@
         <input
           id="lastname"
           type="text"
-          :class="{'has-error':submitting && invalidName}"
+          :class="{ 'has-error': submitting && invalidName }"
           v-model="lastname"
           @focus="clearStatus"
           @keypress="clearStatus"
@@ -33,7 +33,7 @@
         <input
           id="email"
           type="text"
-          :class="{'has-error':submitting && invalidEmail}"
+          :class="{ 'has-error': submitting && invalidEmail }"
           v-model="email"
           @focus="clearStatus"
           @keypress="clearStatus"
@@ -41,8 +41,12 @@
         />
       </p>
 
-      <p v-if="submitting && error" class="error-message">Please enter valid information!</p>
-      <p v-if="success" class="success-message">✅ Employee successfully added</p>
+      <p v-if="submitting && error" class="error-message">
+        Please enter valid information!
+      </p>
+      <p v-if="success" class="success-message">
+        ✅ Employee successfully added
+      </p>
 
       <p>
         <input type="submit" value="Submit" />
@@ -62,12 +66,15 @@ export default {
       id: null,
       name: "",
       lastname: "",
-      email: ""
+      email: "",
     };
   },
   methods: {
-    /* eslint-disable */
-    onSubmit(name, lastname, email) {
+    clearStatus() {
+      this.success = false;
+      this.error = false;
+    },
+    addEmployee() {
       this.submitting = true;
       this.clearStatus();
 
@@ -76,13 +83,13 @@ export default {
         return;
       }
 
-      let _employee = {
+      let employee_ = {
         name: this.name,
         lastname: this.lastname,
-        email: this.email
+        email: this.email,
       };
 
-      this.$emit("add-employee", _employee);
+      this.$store.dispatch("addEmployee", employee_);
       this.$refs.first.focus();
 
       this.name = null;
@@ -93,10 +100,6 @@ export default {
       this.success = true;
       this.submitting = false;
     },
-    clearStatus() {
-      this.success = false;
-      this.error = false;
-    }
   },
   computed: {
     invalidName() {
@@ -104,8 +107,8 @@ export default {
     },
     invalidEmail() {
       return this.email === "" || !this.email.includes("@");
-    }
-  }
+    },
+  },
 };
 </script>
 
