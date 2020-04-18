@@ -2,7 +2,7 @@
   <div id="app" class="small-container">
     <h1>Employees</h1>
 
-    <employee-form @add-employee="addEmployee"></employee-form>
+    <employee-form></employee-form>
     <employee-table
       :employees="employees"
       @delete-employee="deleteEmployee"
@@ -19,42 +19,20 @@ export default {
   name: "App",
   components: {
     EmployeeTable,
-    EmployeeForm
+    EmployeeForm,
   },
   data() {
     return {
-      employees: [
-        {
-          id: 1,
-          name: "Ali",
-          lastname: "Kaya",
-          email: "ali@example.com"
-        },
-        {
-          id: 2,
-          name: "Veli",
-          lastname: "Kirkdokuzelli",
-          email: "veli@example.com"
-        }
-      ]
+      employees: [],
     };
   },
   methods: {
-    addEmployee(_employee) {
-      const lastId =
-        this.employees.length > 0
-          ? this.employees[this.employees.length - 1].id
-          : 0;
-      const id = lastId + 1;
-      _employee.id = id;
-      this.employees.push(_employee);
-    },
     /* eslint-disable */
     deleteEmployee(id) {
-      this.employees = this.employees.filter(employee => employee.id !== id);
+      this.employees = this.employees.filter((employee) => employee.id !== id);
     },
-    editEmployee(id, updatedEmployee) {}
-  }
+    editEmployee(id, updatedEmployee) {},
+  },
 };
 </script>
 
