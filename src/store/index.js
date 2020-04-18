@@ -30,12 +30,35 @@ export default new Vuex.Store({
         email: employee.email,
       });
     },
+    editOneEmployee(state, employee_) {
+      const employee = state.employees.find((item) => item.id === employee_.id);
+      employee.name = employee_.name;
+      employee.lastname = employee_.lastname;
+      employee.email = employee_.email;
+    },
+    removeOneEmployee(state, id) {
+      state.employees = state.employees.filter(
+        (employee) => employee.id !== id
+      );
+    },
   },
   actions: {
     addEmployee({ commit }, employee) {
       console.log("inside actions");
       if (employee) {
         commit("addToEmployees", employee);
+      }
+    },
+    editEmployee({ commit }, employee) {
+      console.log("inside edit employee action");
+      if (employee) {
+        commit("editOneEmployee", employee);
+      }
+    },
+    removeEmployee({ commit }, id) {
+      console.log("inside remove employee action");
+      if (id) {
+        commit("removeOneEmployee", id);
       }
     },
   },

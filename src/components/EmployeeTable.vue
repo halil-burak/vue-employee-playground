@@ -24,7 +24,7 @@
             <button class="muted-button" @click="editing = null">Cancel</button>
           </td>
           <td v-else>
-            <button @click="$emit('delete-employee', employee.id)">
+            <button @click="removeEmployee(employee.id)">
               Delete
             </button>
             <button @click="editMode(employee.id)">Edit</button>
@@ -43,7 +43,6 @@ export default {
       editing: null,
     };
   },
-  props: {},
   computed: {
     employees() {
       return this.$store.getters.employeeList;
@@ -60,8 +59,13 @@ export default {
       this.editing = id;
     },
     editEmployee(employee) {
-      this.$emit("edit-employee", employee.id, employee);
+      console.log("editing employee id:", employee.id);
+      this.$store.dispatch("editEmployee", employee);
       this.editing = null;
+    },
+    removeEmployee(id) {
+      console.log("removing employee id:", id);
+      this.$store.dispatch("removeEmployee", id);
     },
   },
 };

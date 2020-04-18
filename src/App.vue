@@ -3,11 +3,7 @@
     <h1>Employees</h1>
 
     <employee-form></employee-form>
-    <employee-table
-      :employees="employees"
-      @delete-employee="deleteEmployee"
-      @edit-employee="editEmployee"
-    ></employee-table>
+    <employee-table></employee-table>
   </div>
 </template>
 
@@ -20,18 +16,6 @@ export default {
   components: {
     EmployeeTable,
     EmployeeForm,
-  },
-  data() {
-    return {
-      employees: [],
-    };
-  },
-  methods: {
-    /* eslint-disable */
-    deleteEmployee(id) {
-      this.employees = this.employees.filter((employee) => employee.id !== id);
-    },
-    editEmployee(id, updatedEmployee) {},
   },
 };
 </script>
