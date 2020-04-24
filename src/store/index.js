@@ -1,11 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import axios from "axios";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     employees: [],
+    user: null,
   },
   getters: {
     employeeCount(state) {
@@ -41,6 +43,12 @@ export default new Vuex.Store({
         (employee) => employee.id !== id
       );
     },
+    SET_USER_DATA(state, userData) {
+      state.user = userData;
+      localStorage.setItem("user", JSON.stringify(userData));
+      axios.defaults.headers.common["Authorization"] =
+        "Bearer ${userData.token}";
+    },
   },
   actions: {
     addEmployee({ commit }, employee) {
@@ -60,6 +68,11 @@ export default new Vuex.Store({
       if (id) {
         commit("removeOneEmployee", id);
       }
+    },
+    register({ commit }, credentials) {
+      return axios
+        .post("//localhost:3000/register", credentials)
+        .then(({ data }) => commit("SET_USER_DATA", data));
     },
   },
 });
