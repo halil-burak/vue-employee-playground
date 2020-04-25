@@ -10,8 +10,8 @@
       </div>
     </template>
     <p v-else>
-      You're successfully logged in. You may now go to the dashboard and start
-      your work!
+      You're successfully logged in. You may now go to the
+      <router-link to="/dashboard">dashboard</router-link> and start your work!
     </p>
   </div>
 </template>
