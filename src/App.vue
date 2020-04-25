@@ -3,11 +3,27 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
-      <router-link to="/dashboard">Dashboard</router-link>
+      <router-link v-if="loggedIn" to="/dashboard">Dashboard</router-link>
+      <router-link v-else to="/login">Login</router-link>
+      <button v-if="loggedIn" type="button" @click="logout">Log out</button>
     </div>
     <router-view />
   </div>
 </template>
+
+<script>
+import { authComputed } from "./store/helpers.js";
+export default {
+  computed: {
+    ...authComputed,
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logout");
+    },
+  },
+};
+</script>
 
 <style>
 #app {

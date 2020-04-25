@@ -22,6 +22,7 @@ const routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
+    meta: { requiresAuth: true },
     component: () =>
       import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"),
   },
@@ -40,7 +41,18 @@ const routes = [
 ];
 
 const router = new VueRouter({
+  mode: "history",
+  base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const loggedIn = localStorage.getItem("user");
+  console.log("to: ", to);
+  if (to.matched.some((record) => record.meta.requiresAuth) && !loggedIn) {
+    return next("/");
+  }
+  next();
 });
 
 export default router;

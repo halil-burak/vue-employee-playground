@@ -52,6 +52,10 @@ export default new Vuex.Store({
       axios.defaults.headers.common["Authorization"] =
         "Bearer ${userData.token}";
     },
+    LOG_OUT() {
+      localStorage.removeItem("user");
+      location.reload();
+    },
   },
   actions: {
     addEmployee({ commit }, employee) {
@@ -85,6 +89,9 @@ export default new Vuex.Store({
         .then(({ data }) => {
           commit("SET_USER_DATA", data);
         });
+    },
+    logout({ commit }) {
+      commit("LOG_OUT");
     },
   },
 });
