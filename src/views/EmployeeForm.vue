@@ -48,7 +48,6 @@ export default {
       success: false,
       id: null,
       name: "",
-      lastname: "",
       email: ""
     };
   },
@@ -68,7 +67,6 @@ export default {
 
       let employee_ = {
         name: this.name,
-        lastname: this.lastname,
         email: this.email
       };
 
@@ -76,7 +74,6 @@ export default {
       this.$refs.first.focus();
 
       this.name = null;
-      this.lastname = null;
       this.email = null;
 
       this.error = false;
@@ -86,7 +83,7 @@ export default {
   },
   computed: {
     invalidName() {
-      return this.name === "" || this.lastname === "";
+      return this.name === "";
     },
     invalidEmail() {
       return this.email === "" || !this.email.includes("@");

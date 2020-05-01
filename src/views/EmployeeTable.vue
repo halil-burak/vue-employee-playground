@@ -66,7 +66,7 @@ export default {
       this.$store.dispatch("getEmployees");
     }
   },
-  mounted() {
+  created() {
     this.fetchEmployees();
   }
 };
