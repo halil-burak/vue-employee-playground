@@ -56,8 +56,25 @@ export default new Vuex.Store({
       localStorage.removeItem("user");
       location.reload();
     },
+    fetchEmployees(state, data) {
+      console.log("inserting employees...");
+      state.employees = data;
+      console.log("inserted employees.");
+    },
   },
   actions: {
+    async getEmployees({ commit }) {
+      console.log("fetching employees...");
+      try {
+        let response = await fetch(
+          "https://jsonplaceholder.typicode.com/users"
+        );
+        let data = await response.json();
+        commit("fetchEmployees", data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
     addEmployee({ commit }, employee) {
       console.log("inside actions");
       if (employee) {
