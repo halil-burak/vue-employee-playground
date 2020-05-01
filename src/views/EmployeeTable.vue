@@ -9,11 +9,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(employee, index) in employees" :key="employee.id">
+        <tr v-for="(employee) in employees" :key="employee.id">
           <td v-if="editing === employee.id">
             <input type="text" v-model="employee.name" />
           </td>
-          <td v-else>{{ fullname(index) }}</td>
+          <td v-else>{{ employee.name }}</td>
 
           <td v-if="editing === employee.id">
             <input type="text" v-model="employee.email" />
@@ -24,9 +24,7 @@
             <button class="muted-button" @click="editing = null">Cancel</button>
           </td>
           <td v-else>
-            <button @click="removeEmployee(employee.id)">
-              Delete
-            </button>
+            <button @click="removeEmployee(employee.id)">Delete</button>
             <button @click="editMode(employee.id)">Edit</button>
           </td>
         </tr>
@@ -40,7 +38,7 @@ export default {
   name: "employee-table",
   data() {
     return {
-      editing: null,
+      editing: null
     };
   },
   computed: {
@@ -49,12 +47,9 @@ export default {
     },
     employeeCount() {
       return this.$store.getters.employeeCount;
-    },
+    }
   },
   methods: {
-    fullname: function(index) {
-      return this.employees[index].name + " " + this.employees[index].lastname;
-    },
     editMode(id) {
       this.editing = id;
     },
@@ -67,7 +62,13 @@ export default {
       console.log("removing employee id:", id);
       this.$store.dispatch("removeEmployee", id);
     },
+    fetchEmployees() {
+      this.$store.dispatch("getEmployees");
+    }
   },
+  mounted() {
+    this.fetchEmployees();
+  }
 };
 </script>
 

@@ -16,19 +16,6 @@
       </p>
 
       <p>
-        <label for="lastname">Last Name:</label>
-        <input
-          id="lastname"
-          type="text"
-          :class="{ 'has-error': submitting && invalidName }"
-          v-model="lastname"
-          @focus="clearStatus"
-          @keypress="clearStatus"
-          required
-        />
-      </p>
-
-      <p>
         <label for="email">Email:</label>
         <input
           id="email"
@@ -41,12 +28,8 @@
         />
       </p>
 
-      <p v-if="submitting && error" class="error-message">
-        Please enter valid information!
-      </p>
-      <p v-if="success" class="success-message">
-        ✅ Employee successfully added
-      </p>
+      <p v-if="submitting && error" class="error-message">Please enter valid information!</p>
+      <p v-if="success" class="success-message">✅ Employee successfully added</p>
 
       <p>
         <input type="submit" value="Submit" />
@@ -66,7 +49,7 @@ export default {
       id: null,
       name: "",
       lastname: "",
-      email: "",
+      email: ""
     };
   },
   methods: {
@@ -86,7 +69,7 @@ export default {
       let employee_ = {
         name: this.name,
         lastname: this.lastname,
-        email: this.email,
+        email: this.email
       };
 
       this.$store.dispatch("addEmployee", employee_);
@@ -99,7 +82,7 @@ export default {
       this.error = false;
       this.success = true;
       this.submitting = false;
-    },
+    }
   },
   computed: {
     invalidName() {
@@ -107,8 +90,8 @@ export default {
     },
     invalidEmail() {
       return this.email === "" || !this.email.includes("@");
-    },
-  },
+    }
+  }
 };
 </script>
 
