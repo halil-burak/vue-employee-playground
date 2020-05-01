@@ -22,23 +22,18 @@ export default new Vuex.Store({
   },
   mutations: {
     addToEmployees(state, employee) {
-      console.log("inside mutations");
+      console.log("inside addToEmployees mutation");
       const lastId =
         state.employees.length > 0
           ? state.employees[state.employees.length - 1].id
           : 0;
       const id = lastId + 1;
-      state.employees.push({
-        id: id,
-        name: employee.name,
-        lastname: employee.lastname,
-        email: employee.email,
-      });
+      employee.id = id;
+      state.employees.push(employee);
     },
     editOneEmployee(state, employee_) {
       const employee = state.employees.find((item) => item.id === employee_.id);
       employee.name = employee_.name;
-      employee.lastname = employee_.lastname;
       employee.email = employee_.email;
     },
     removeOneEmployee(state, id) {
@@ -75,22 +70,55 @@ export default new Vuex.Store({
         console.log(error);
       }
     },
-    addEmployee({ commit }, employee) {
-      console.log("inside actions");
+    async addEmployee({ commit }, employee) {
+      console.log("inside addEmployee action");
       if (employee) {
-        commit("addToEmployees", employee);
+        try {
+          let response = await fetch(
+            "https://jsonplaceholder.typicode.com/users",
+            {
+              method: "POST",
+              body: JSON.stringify(employee),
+              headers: { "Content-type": "application/json; charset=UTF-8" },
+            }
+          );
+          let data = await response.json();
+          commit("addToEmployees", data);
+        } catch (error) {
+          console.log(error);
+        }
       }
     },
-    editEmployee({ commit }, employee) {
+    async editEmployee({ commit }, employee) {
       console.log("inside edit employee action");
       if (employee) {
-        commit("editOneEmployee", employee);
+        try {
+          const response = await fetch(
+            `https://jsonplaceholder.typicode.com/users/${employee.id}`,
+            {
+              method: "PUT",
+              body: JSON.stringify(employee),
+              headers: { "Content-type": "application/json; charset=UTF-8" },
+            }
+          );
+          const data = await response.json();
+          commit("editOneEmployee", data);
+        } catch (error) {
+          console.error(error);
+        }
       }
     },
-    removeEmployee({ commit }, id) {
-      console.log("inside remove employee action");
+    async removeEmployee({ commit }, id) {
+      console.log("inside removeEmployee action");
       if (id) {
-        commit("removeOneEmployee", id);
+        try {
+          await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
+            method: "DELETE",
+          });
+          commit("removeOneEmployee", id);
+        } catch (error) {
+          console.error(error);
+        }
       }
     },
     register({ commit }, credentials) {
